@@ -1,14 +1,28 @@
 import { useState, useEffect } from "react";
+
 export default function sendToWeb3Storage() {
+  const [cute, setCute] = useState(false);
+  const [cool, setCool] = useState(false);
+  const [fun, setFun] = useState(false);
+  const [description, setDescription] = useState("");
+
+  useEffect(() => {
+    console.log("the current state of fun", fun);
+    console.log("the current state of cool", cool);
+    console.log("the current state of cute", cute);
+    console.log("the current state of description", description);
+  });
+
   //this function should get called when a user submits a form, or something like that. The e refers to the event that executes this function, like a form submit
   async function sendToWeb3Storage(e) {
     //
     e.preventDefault();
     // this is the request body that will be sent to web3.storage. Replace these variables with variables that were saved in state for your app
     const body = {
-      name: eventName,
-      description: eventDescription,
-      link: eventLink,
+      description: description,
+      cute: cute,
+      cool: cool,
+      fun: fun,
     };
 
     try {
@@ -43,11 +57,14 @@ export default function sendToWeb3Storage() {
         <div>
           <div>
             <h3 className="text-lg leading-6 font-medium text-white">
-              Profile
+              Send User-generated Data to Web3Storage
             </h3>
             <p className="mt-1 max-w-2xl text-sm text-white">
-              This information will be displayed publicly so be careful what you
-              share.
+              This information is an example of off-chain storage that we will
+              store with Web3.Storage. To use this in your app, you'll need to
+              generate an API key for Web3.Storage by registering as a user and
+              then requesting a key. You'll paste this key in your .env.local
+              file at the root of your project.
             </p>
           </div>
 
@@ -64,6 +81,9 @@ export default function sendToWeb3Storage() {
                   id="about"
                   name="about"
                   rows={3}
+                  onChange={(e) => {
+                    setDescription(e.target.value);
+                  }}
                   className="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
                   defaultValue={""}
                 />
@@ -75,15 +95,6 @@ export default function sendToWeb3Storage() {
           </div>
         </div>
         <div className="divide-y divide-gray-200 pt-8 space-y-6 sm:pt-10 sm:space-y-5">
-          <div>
-            <h3 className="text-lg leading-6 font-medium text-white">
-              Notifications
-            </h3>
-            <p className="mt-1 max-w-2xl text-sm text-white">
-              We'll always let you know about important changes, but you pick
-              what else you want to hear about.
-            </p>
-          </div>
           <div className="space-y-6 sm:space-y-5 divide-y divide-gray-200">
             <div className="pt-6 sm:pt-5">
               <div role="group" aria-labelledby="label-email">
@@ -93,7 +104,7 @@ export default function sendToWeb3Storage() {
                       className="text-base font-medium text-white sm:text-sm sm:text-white"
                       id="label-email"
                     >
-                      By Email
+                      Descriptors
                     </div>
                   </div>
                   <div className="mt-4 sm:mt-0 sm:col-span-2">
@@ -101,22 +112,24 @@ export default function sendToWeb3Storage() {
                       <div className="relative flex items-start">
                         <div className="flex items-center h-5">
                           <input
-                            id="comments"
-                            name="comments"
+                            id="fun"
+                            name="fun"
                             type="checkbox"
                             className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                            onChange={(e) => {
+                              setFun(e.target.checked);
+                            }}
                           />
                         </div>
                         <div className="ml-3 text-sm">
                           <label
-                            htmlFor="comments"
+                            htmlFor="fun"
                             className="font-medium text-white"
                           >
-                            Comments
+                            Fun
                           </label>
                           <p className="text-white">
-                            Get notified when someones posts a comment on a
-                            posting.
+                            Your friends say you're a good time.
                           </p>
                         </div>
                       </div>
@@ -124,21 +137,24 @@ export default function sendToWeb3Storage() {
                         <div className="relative flex items-start">
                           <div className="flex items-center h-5">
                             <input
-                              id="candidates"
-                              name="candidates"
+                              id="cool"
+                              name="cool"
                               type="checkbox"
+                              onChange={(e) => {
+                                setCool(e.target.checked);
+                              }}
                               className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
                             />
                           </div>
                           <div className="ml-3 text-sm">
                             <label
-                              htmlFor="candidates"
+                              htmlFor="cool"
                               className="font-medium text-white"
                             >
-                              Candidates
+                              Cool
                             </label>
                             <p className="text-white">
-                              Get notified when a candidate applies for a job.
+                              Your friends say you're cool.
                             </p>
                           </div>
                         </div>
@@ -147,22 +163,24 @@ export default function sendToWeb3Storage() {
                         <div className="relative flex items-start">
                           <div className="flex items-center h-5">
                             <input
-                              id="offers"
-                              name="offers"
+                              id="cute"
+                              name="cute"
                               type="checkbox"
+                              onChange={(e) => {
+                                setCute(e.target.checked);
+                              }}
                               className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
                             />
                           </div>
                           <div className="ml-3 text-sm">
                             <label
-                              htmlFor="offers"
+                              htmlFor="cute"
                               className="font-medium text-white"
                             >
-                              Offers
+                              Cute
                             </label>
                             <p className="text-white">
-                              Get notified when a candidate accepts or rejects
-                              an offer.
+                              Your friends say you're cute.
                             </p>
                           </div>
                         </div>
@@ -179,12 +197,7 @@ export default function sendToWeb3Storage() {
       <div className="pt-5">
         <div className="flex justify-end">
           <button
-            type="button"
-            className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            Cancel
-          </button>
-          <button
+            onClick={sendToWeb3Storage}
             type="submit"
             className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
