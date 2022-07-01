@@ -17,7 +17,8 @@ export default function sendToWeb3Storage() {
   async function sendToWeb3Storage(e) {
     //
     e.preventDefault();
-    // this is the request body that will be sent to web3.storage. Replace these variables with variables that were saved in state for your app
+    // this is the request body that will be sent to web3.storage. Replace these variables with variables that were saved in state for your app.
+    //We're storing these variables because that's what this specific example gathers from the user. 
     const body = {
       description: description,
       cute: cute,
