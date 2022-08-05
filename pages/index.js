@@ -1,8 +1,6 @@
-import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
+
 import Layout from "../components/Layout";
-import connectContract from "../utils/connectContract"; //util function to call functions from your smart contract
+import abi from "../utils/abi.json";
 import { ApolloClient, InMemoryCache, gql, useQuery } from "@apollo/client";
 //The component to display the data that comes back from your query to the subgraph
 import List from "../components/List";
@@ -10,6 +8,7 @@ import List from "../components/List";
 import { useState, useEffect } from "react";
 import ListProfiles from "../components/ListProfiles";
 import Heading from "../components/Heading";
+import { useContract } from "wagmi";
 
 //todo:
 //1. show how to use the connectContract button
@@ -27,8 +26,17 @@ const LENS_QUERY = gql`
     }
   }
 `;
+const CONTRACT_ADDRESS = "0x-your-contract-address-here"
 
 export default function Home() {
+  //uncomment this after you add your contract address above, and 
+  //abi in the abi.json file to declaratively creating an ethers Contract instance. 
+  
+  // const contract = useContract({
+  //   addressOrName: CONTRACT_ADDRESS,
+  //   contractInterface: abi.abi,
+  // });
+
   const { loading, error, data } = useQuery(LENS_QUERY);
   console.log("Data", data);
 
